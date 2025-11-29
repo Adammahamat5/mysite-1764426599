@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LambdaMiner Pro - Decentralized Crypto Mining</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-red-900 min-h-screen text-white">
+    <lambda-header></lambda-header>
+    
+    <main class="container mx-auto px-4 py-6 pb-24">
+        <!-- Active Section Display -->
+        <div id="active-section" class="min-h-screen">
+            <!-- Default to Mine section -->
+            <div id="mine-section" class="section active">
+                <div class="bg-red-800 rounded-xl p-6 shadow-2xl mb-6">
+                    <h2 class="text-2xl font-bold mb-2">Lambda Mining</h2>
+                    <p class="text-red-200 mb-4">Earn 0.036 $λ every 2 hours</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold" id="current-balance">0.000</div>
+                            <div class="text-red-300 text-sm">Total Mined</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold" id="wallet-amount">0.000</div>
+                            <div class="text-red-300 text-sm">Wallet Balance</div>
+                        </div>
+                    </div>
+
+                    <button id="mine-button" class="w-full bg-yellow-500 hover:bg-yellow-600 text-red-900 font-bold py-4 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i data-feather="zap" class="inline w-5 h-5 mr-2"></i>
+                        MINE NOW
+                    </button>
+                    
+                    <div id="countdown" class="mt-4 text-center text-red-300 hidden">
+                        Next mining available in: <span id="timer">02:00:00</span>
+                    </div>
+                </div>
+
+                <div class="bg-red-800 rounded-xl p-6 shadow-2xl">
+                    <h3 class="text-xl font-bold mb-4">Mining Stats</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-red-300">Mining Rate:</span>
+                            <span class="font-bold">0.036 $λ/hour</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-red-300">Cooldown:</span>
+                            <span class="font-bold">2 hours</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-red-300">Total Sessions:</span>
+                            <span class="font-bold" id="total-sessions">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Section -->
+            <div id="tasks-section" class="section hidden">
+                <div class="bg-red-800 rounded-xl p-6 shadow-2xl mb-4">
+                    <h2 class="text-2xl font-bold mb-4">Complete Tasks</h2>
+                    <p class="text-red-200 mb-6">Earn bonus $λ by completing these tasks</p>
+                    
+                    <div class="space-y-4">
+                        <div class="task-item bg-red-700 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold">Invite Friends</h4>
+                                    <p class="text-red-300 text-sm">Get 0.5 $λ per referral</p>
+                                </div>
+                                <button class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-bold">
+                                    +0.5 $λ
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item bg-red-700 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold">Daily Check-in</h4>
+                                    <p class="text-red-300 text-sm">Visit daily for bonus rewards</p>
+                                </div>
+                                <button class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-bold">
+                                        +0.1 $λ
+                                    </button>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item bg-red-700 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold">Social Media</h4>
+                                    <p class="text-red-300 text-sm">Follow us on Twitter</p>
+                                </div>
+                                <button class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-bold">
+                                        +0.2 $λ
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet Section -->
+            <div id="wallet-section" class="section hidden">
+                <div class="bg-red-800 rounded-xl p-6 shadow-2xl">
+                    <h2 class="text-2xl font-bold mb-6">Your Wallet</h2>
+                    
+                    <div class="text-center mb-6">
+                        <div class="text-5xl font-bold mb-2" id="wallet-display">0.000</div>
+                        <div class="text-red-300">Total $λ Balance</div>
+                    </div>
+
+                    <div class="bg-red-700 rounded-lg p-4 mb-4">
+                        <h3 class="font-bold mb-2">Wallet Address</h3>
+                        <div class="bg-red-600 p-3 rounded text-sm font-mono break-all" id="wallet-address">
+                            Generating unique wallet...
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-red-300">Mined Balance:</span>
+                            <span id="mined-display">0.000 $λ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-red-300">Task Rewards:</span>
+                            <span id="task-rewards">0.000 $λ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-red-300">Airdrop Rewards:</span>
+                            <span id="airdrop-rewards">0.000 $λ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Airdrop Section -->
+            <div id="airdrop-section" class="section hidden">
+                <div class="bg-red-800 rounded-xl p-6 shadow-2xl">
+                    <h2 class="text-2xl font-bold mb-4">Airdrop Rewards</h2>
+                    <p class="text-red-200 mb-6">Claim exclusive airdrop rewards for active miners</p>
+                    
+                    <div class="space-y-4">
+                        <div class="airdrop-item bg-red-700 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold">Weekly Bonus</h4>
+                                    <p class="text-red-300 text-sm">Available every Monday</p>
+                                </div>
+                                <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-bold">
+                                    Claim 1.0 $λ
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="airdrop-item bg-red-700 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold">Monthly Reward</h4>
+                                    <p class="text-red-300 text-sm">5.0 $λ for consistent mining</p>
+                                </div>
+                                <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-bold">
+                                        Claim 5.0 $λ
+                                    </button>
+                            </div>
+                        </div>
+                        
+                        <div class="airdrop-item bg-red-700 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold">New User Bonus</h4>
+                                    <p class="text-red-300 text-sm">One-time welcome reward</p>
+                                </div>
+                                <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-bold">
+                                        Claim 2.0 $λ
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings-section" class="section hidden">
+                <div class="bg-red-800 rounded-xl p-6 shadow-2xl">
+                    <h2 class="text-2xl font-bold mb-6">Settings</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-red-700 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Account</h4>
+                            <p class="text-red-300 text-sm">Your mining data is stored locally</p>
+                        </div>
+                        
+                        <div class="bg-red-700 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Notifications</h4>
+                            <div class="flex justify-between items-center">
+                                <span class="text-red-300">Mining alerts</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-red-700 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Data Management</h4>
+                            <button id="reset-data" class="w-full bg-red-600 hover:bg-red-700 py-2 rounded-lg text-sm font-bold">
+                                Reset All Data
+                            </button>
+                        </div>
+                        
+                        <div class="bg-red-700 p-4 rounded-lg text-center">
+                            <p class="text-red-300 text-sm">Lambda Network v1.0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <lambda-navigation></lambda-navigation>
+    
+    <script src="components/header.js"></script>
+    <script src="components/navigation.js"></script>
+    <script src="script.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
